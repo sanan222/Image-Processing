@@ -1,0 +1,37 @@
+Merhabalar,
+
+Bu dosyada yazdığım kodun çalışma mantığını kısaca anlatmak istiyorum. 
+
+İlk olarak, number_and_height.py kodunu çalıştırabilirsiniz. Görüntülerdeki microneedle ların daha iyi tanınması için
+görseli manuel olarak düzenledim (altını ve kenarlarını kestim). Böylece bilgisayar ön veri analizi yapmadan (derin öğrenme)
+objeleri çok daha rahat tanıyabiliyor. Daha sonra objelerin yüksekliğini ve sayısını bulmak için "pixels per metric" metodunu kullandım. 
+
+Metoddan kısaca bahsetmiş olursam, pixels per metric görsel üzerinde referans alınan bir görselin boyutlarına göre hesaplanıyor. 
+Bu yazılan kodlardan önce görsel üzerinde bir objenin (genelde yukarı sağ köşeye koyulan) boyutlarının önceden belli olması lazım. 
+Bizim örnekte yukarı sağ köşede küçük kare kullandığımı görebilirsiniz. Bu karenin değerlerinin önceden belli olması işimizi her zaman daha
+da kolaylaştırabilir.
+
+Kodun anlatımına gelince ise kodun üzerinde comment olarak tüm detaylar mevcut. Ama genel olarak baktıkta ilk olarak kütüphaneleri
+indirdim (venv dosyasının için kullandığım tüm kütüpheneler var). Daha sonra pre processing dediğimiz görselin önceden hazırlığını yaptım.
+Pre processing aşamasına görselin siyah beyaz formata getirilmesi, blurlanması ve köşelerinin bulunup dilation ve erosion yöntemlerinin
+uygulanması dahil. İnternetteki örneklerde hep blurlama kısmında hep Gaussian blur metodu kullanılsa da araştırmalarım sonucu "bilateral Blur"
+metodunun bizim kodda daha faydalı olduğunu gördüm. Kodu çalıştırdığınızda açılan ikinci görselin pre processing aşamasından sonra
+görünen Canny edge metodundan sonraki versiyonu.
+
+Daha sonra ise bounding box metodunu uyguladım. Bounding box görselde kenarları kapalı olan görselleri bularak onları obje olarak tanımlar
+ve etrafına yeşil renkli dikdörtken çizer. Bu metodun uygulama aşamaları kodda daha detaylı bir şekilde anlatılıyor. Son aşamada ise
+objeleri bulma sırasında thresholding area dediğimiz dikdörtkeni çizeceğimiz alanları belirlediğimizde değer kullanırız. Bu değer pixel boyutu
+ile verilir ve internetteki örneklerde 100 olarak alınsa da biz küçük obje tespiti yaptığımız için daha küçük (15 pixel) değerler bizim için
+yeterli oldu.
+
+Son olarak kodun son aşamasında ard arda her microneedle boyutunu görebilirsiniz. Microneedle sayısını ve boyutlarını da output kısmında yazdırmış
+oldum. 
+
+Contour_detection.py dosyası ise görsel üzerinde istediğimiz kenarları belirleyip direkt üzerinden çiziyor. Genişlikleri ölçmek için birçok metod
+denesem de maalesef problemi çözemedim. Contourları birleştirmeyi de denedim ama pixel boyutlarını manuel girmeden bulmak mümkün olmadı. Eğer manuel
+olarak çizgi çekmemiz uygun olursa kendimiz yüksekliği belirleyip tahmini çizgi çizerek uygun değerleri bulabiliriz. Bunu kenarda başka uygulamada
+çizdikten sonra da yapmamız mümkün. Ama otomatik olarak kodun hem bölüp hem de boyutlarını bulduğu uygulamayı maalesef yapamadım.
+
+
+Sona kadar okuduğunuz için teşekkür ederim.
+Sanan Garayev
